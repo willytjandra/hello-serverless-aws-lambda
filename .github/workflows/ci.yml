@@ -33,7 +33,6 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
       name: Package & Deploy
-      shell: bash
       run: |
         dotnet tool install -g Amazon.Lambda.Tools --framework netcoreapp3.1
         dotnet lambda package --configuration Release --framework netcoreapp3.1 --output-package bin/Release/netcoreapp3.1/hello.zip
