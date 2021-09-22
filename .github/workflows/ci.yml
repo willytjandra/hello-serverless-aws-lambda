@@ -7,6 +7,9 @@ on:
   pull_request:
     branches:
       - main
+
+workflow-dispatch:
+
 jobs:
   build:
     name: Build & Test
@@ -36,6 +39,5 @@ jobs:
       run: |
         dotnet tool install -g Amazon.Lambda.Tools --framework netcoreapp3.1
         dotnet lambda package --configuration Release --framework netcoreapp3.1 --output-package bin/Release/netcoreapp3.1/hello.zip
-
         npm i -g serverless
         sls deploy -s qa -r ap-southeast-2
