@@ -7,9 +7,10 @@ on:
   pull_request:
     branches:
       - main
+
 jobs:
   build:
-    name: dotnet build
+    name: Build & Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -20,3 +21,21 @@ jobs:
       - run: dotnet restore
       - run: dotnet build -c Release --no-restore
       - run: dotnet test --no-build
+
+  deploy-qa:
+    name: Deploy to QA
+    if: github.event.ref == 'refs/heads/main'
+    needs: [build]
+    runs-on: ubuntu-latest
+    environment:
+      name: qa
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    steps:
+      - name: Package & Deploy
+        run: |
+          dotnet tool install -g Amazon.Lambda.Tools --framework netcoreapp3.1
+          dotnet lambda package --configuration Release --framework netcoreapp3.1 --output-package bin/Release/netcoreapp3.1/hello.zip
+          npm i -g serverless
+          sls deploy -s qa -r ap-southeast-2
