@@ -40,3 +40,22 @@ jobs:
           ./build.sh
           npm i -g serverless
           sls deploy -s qa -r ap-southeast-2
+
+  deploy-uat:
+    name: Deploy to UAT
+    if: github.event.ref == 'refs/heads/main'
+    needs: [deploy-qa]
+    runs-on: ubuntu-latest
+    environment:
+      name: uat
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Package & Deploy
+        run: |
+          chmod +x ./build.sh
+          ./build.sh
+          npm i -g serverless
+          sls deploy -s uat -r ap-southeast-2
