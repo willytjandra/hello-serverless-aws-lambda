@@ -28,7 +28,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: hello-lambda
-          path: ${{ github.workspace }}/Serverless/bin/Release/netcoreapp3.1/hello.zip
+          path: ${{ github.workspace }}/bin/Release/netcoreapp3.1/hello.zip
           if-no-files-found: error
 
   deploy-qa:
