@@ -45,7 +45,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: hello-lambda
-          path: ${{ ARTIFACT_PATH }}
+          path: ${{ env.ARTIFACT_PATH }}
       - name: Deploy
         run: |
           npm i -g serverless
@@ -68,7 +68,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: hello-lambda
-          path: ${{ ARTIFACT_PATH }}
+          path: ${{ env.ARTIFACT_PATH }}
       - name: Deploy
         run: |
           npm i -g serverless
