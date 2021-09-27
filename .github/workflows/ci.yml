@@ -39,7 +39,7 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       ARTIFACT_PATH: ${{ github.workspace }}/artifacts
-      GITHUB_REPO_URL: https://github.com/${{ github.repository }}
+      GITHUB_REPO_URL: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY
     steps:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
