@@ -38,15 +38,15 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      ARTIFACT_PATH: ${{ github.workspace }}/artifacts
+      GITHUB_REPO_URL: https://github.com/${{ github.repository }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
         with:
           name: hello-lambda
-          path: ${{ github.workspace }}/artifacts
+          path: ${ARTIFACT_PATH}
       - name: Deploy
-        env:
-          ARTIFACT_PATH: ${{ github.workspace }}/artifacts
         run: |
           npm i -g serverless
           sls deploy -s qa -r ap-southeast-2
@@ -61,11 +61,15 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      ARTIFACT_PATH: ${{ github.workspace }}/artifacts
+      GITHUB_REPO_URL: https://github.com/${{ github.repository }}
     steps:
       - uses: actions/checkout@v2
-      - name: Package & Deploy
+      - uses: actions/download-artifact@v2
+        with:
+          name: hello-lambda
+          path: ${ARTIFACT_PATH}
+      - name: Deploy
         run: |
-          chmod +x ./build.sh
-          ./build.sh
           npm i -g serverless
           sls deploy -s uat -r ap-southeast-2
