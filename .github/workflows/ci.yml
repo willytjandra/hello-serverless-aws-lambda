@@ -26,8 +26,10 @@ jobs:
           chmod +x ./build.sh
           ./build.sh
       - uses: actions/upload-artifact@v2
-        name: hello-lambda
-        path: ${{ github.workspace }}/Serverless/bin/Release/netcoreapp3.1/hello.zip
+        with:
+          name: hello-lambda
+          path: ${{ github.workspace }}/Serverless/bin/Release/netcoreapp3.1/hello.zip
+          if-no-files-found: error
 
   deploy-qa:
     name: Deploy to QA
@@ -42,8 +44,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
-        name: hello-lambda
-        path: ${{ github.workspace }}/artifact
+        with:
+          name: hello-lambda
+          path: ${{ github.workspace }}/artifact
       - name: Deploy
         run: |
           npm i -g serverless
