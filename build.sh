@@ -16,6 +16,8 @@ dotnet build -c Release --no-restore
 say "Running tests"
 dotnet test -c Release --no-build
 
+dotnet tool install -g Amazon.Lambda.Tools
+
 say "Packaging lambda"
 dotnet lambda package \
   --configuration Release \

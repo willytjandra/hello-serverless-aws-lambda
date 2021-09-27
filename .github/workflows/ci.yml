@@ -18,10 +18,7 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: "3.1.413"
-      - run: dotnet restore
-      - run: dotnet build -c Release --no-restore
-      - run: dotnet test --no-build
-      - name: Package
+      - name: Build & Package
         run: |
           chmod +x ./build.sh
           ./build.sh
