@@ -49,7 +49,7 @@ jobs:
           ARTIFACT_PATH: ${{ github.workspace }}/artifacts
         run: |
           npm i -g serverless
-          sls deploy -s qa -r ap-southeast-2 -p ${{ github.workspace }}/artifact/
+          sls deploy -s qa -r ap-southeast-2
 
   deploy-uat:
     name: Deploy to UAT
