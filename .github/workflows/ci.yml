@@ -50,7 +50,7 @@ jobs:
       - name: Deploy
         run: |
           npm i -g serverless
-          sls deploy -s qa -r ap-southeast-2 -p ${{ github.workspace }}/artifact/hello.zip
+          sls deploy -s qa -r ap-southeast-2 -p ${{ github.workspace }}/artifact/
 
   deploy-uat:
     name: Deploy to UAT
