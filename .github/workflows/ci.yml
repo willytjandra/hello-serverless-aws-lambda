@@ -21,6 +21,13 @@ jobs:
       - run: dotnet restore
       - run: dotnet build -c Release --no-restore
       - run: dotnet test --no-build
+      - name: Package
+        run: |
+          chmod +x ./build.sh
+          ./build.sh
+      - uses: actions/upload-artifact@v2
+        name: hello-lambda
+        path: ${{ github.workspace }}/Serverless/bin/Release/netcoreapp3.1/hello.zip
 
   deploy-qa:
     name: Deploy to QA
@@ -34,12 +41,13 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
       - uses: actions/checkout@v2
-      - name: Package & Deploy
+      - uses: actions/download-artifact@v2
+        name: hello-lambda
+        path: ${{ github.workspace }}/artifact
+      - name: Deploy
         run: |
-          chmod +x ./build.sh
-          ./build.sh
           npm i -g serverless
-          sls deploy -s qa -r ap-southeast-2
+          sls deploy -s qa -r ap-southeast-2 -p ${{ github.workspace }}/artifact/hello.zip
 
   deploy-uat:
     name: Deploy to UAT
