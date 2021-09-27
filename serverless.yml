@@ -29,7 +29,12 @@ provider:
   region: ${opt:region}
   stage: ${opt:stage}
 
+package:
+  artifact: ${env:ARTIFACT_PATH,'bin/Release/netcoreapp3.1'}/hello.zip
+
 functions:
   hello:
     name: hello-${opt:stage}
     handler: CsharpHandlers::AwsDotnetCsharp.Handler::Hello
+
+    # you can add packaging information here
